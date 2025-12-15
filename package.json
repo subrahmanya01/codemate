@@ -1,0 +1,63 @@
+{
+  "name": "codemate",
+  "displayName": "codemate",
+  "description": "Helper tools for developer",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+ "contributes": {
+  "viewsContainers": {
+    "activitybar": [
+      {
+        "id": "codemate-container",
+        "title": "Codemate",
+        "icon": "resources/codemate.svg"
+      }
+    ]
+  },
+  "views": {
+    "codemate-container": [
+      {
+        "id": "codemate-menu",
+        "name": "Tools" 
+      }
+    ]
+  },
+  "commands": [
+    { "command": "codemate.jsonToCode", "title": "jsonToCode" },
+    { "command": "codemate.codeToJson", "title": "Code to Json" },
+    { "command": "codemate.base64Helper", "title": "base64 Helper" },
+    { "command": "codemate.mockDataProvider", "title": "Mock Data Generator" }
+  ]
+},
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.107.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.48.1",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3",
+    "ts-loader": "^9.5.4",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^6.0.1",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
