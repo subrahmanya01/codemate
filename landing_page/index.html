@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VS Code DevTools - All-in-One Developer Utilities</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-[#0d1117] text-gray-300 antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="file-type" class="text-blue-500 w-6 h-6"></i>
+                    <span class="font-bold text-white tracking-tight text-lg">DevTools<span class="text-blue-500">.ext</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-8">
+                        <a href="#features" class="hover:text-white transition-colors text-sm font-medium">Features</a>
+                        <a href="#how-it-works" class="hover:text-white transition-colors text-sm font-medium">How it Works</a>
+                        <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2">
+                            <i data-lucide="download" class="w-4 h-4"></i> Install for VS Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-500/20 rounded-full blur-[120px] -z-10 opacity-30"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium mb-6">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                v1.0 Public Preview Available
+            </div>
+            
+            <h1 class="text-5xl lg:text-7xl font-bold text-white tracking-tight mb-6">
+                Your Essential <br>
+                <span class="gradient-text">VS Code Swiss Army Knife</span>
+            </h1>
+            
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-10">
+                Stop switching between websites to format JSON, generate mock data, or encode Base64. 
+                Do it all directly inside your editor with a native, dark-mode optimized UI.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#" class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
+                    Install Extension
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#" class="w-full sm:w-auto px-8 py-3.5 glass-panel hover:bg-white/5 text-white rounded-lg font-semibold transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                    View Source
+                </a>
+            </div>
+
+            <!-- UI Preview Mockup -->
+            <div class="mt-16 relative mx-auto max-w-5xl rounded-xl border border-white/10 shadow-2xl overflow-hidden bg-[#1e1e1e]">
+                <!-- Fake VS Code Toolbar -->
+                <div class="flex items-center px-4 py-3 bg-[#252526] border-b border-[#2b2b2b] gap-2">
+                    <div class="flex gap-1.5">
+                        <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                        <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                        <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+                    </div>
+                    <div class="flex-1 text-center text-xs text-gray-500 font-mono">DevTools - Preview</div>
+                </div>
+                <!-- Mock Content -->
+                <div class="grid grid-cols-[50px_1fr] h-[400px]">
+                    <div class="border-r border-[#2b2b2b] bg-[#252526] flex flex-col items-center py-4 gap-4 text-gray-500">
+                        <i data-lucide="file-json" class="w-6 h-6 text-white"></i>
+                        <i data-lucide="code-2" class="w-6 h-6"></i>
+                        <i data-lucide="database" class="w-6 h-6"></i>
+                    </div>
+                    <div class="p-8 flex flex-col justify-center items-center text-center">
+                        <div class="bg-blue-500/10 p-4 rounded-full mb-4">
+                            <i data-lucide="zap" class="w-12 h-12 text-blue-500"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Ready to convert</h3>
+                        <p class="text-gray-500">Paste your JSON on the left to generate TypeScript interfaces instantly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section id="features" class="py-24 bg-[#0d1117] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-white mb-4">Everything you need, built-in.</h2>
+                <p class="text-gray-400">Four powerful tools bundled into one lightweight extension.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div class="glass-panel p-6 rounded-xl hover:border-blue-500/50 transition-colors group">
+                    <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition-colors">
+                        <i data-lucide="file-json" class="text-blue-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">JSON to Code</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Instantly convert complex JSON objects into TypeScript Interfaces, C# Classes, or Python Data Classes.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-panel p-6 rounded-xl hover:border-purple-500/50 transition-colors group">
+                    <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-500/20 transition-colors">
+                        <i data-lucide="code-2" class="text-purple-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Code to JSON</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Reverse engineer your legacy classes. Paste C# or Java classes to generate JSON templates with default values.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-panel p-6 rounded-xl hover:border-green-500/50 transition-colors group">
+                    <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-500/20 transition-colors">
+                        <i data-lucide="database" class="text-green-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Mock Data</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Need dummy data for your API? Generate arrays of realistic users, products, or orders in seconds.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-panel p-6 rounded-xl hover:border-orange-500/50 transition-colors group">
+                    <div class="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-orange-500/20 transition-colors">
+                        <i data-lucide="arrow-right-left" class="text-orange-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Base64 Utils</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Encode and decode strings or tokens without opening a browser tab. Fast, secure, and offline.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-white mb-6">Ready to speed up your workflow?</h2>
+            <div class="flex flex-col items-center gap-4">
+                <div class="flex items-center gap-2 text-gray-400 font-mono text-sm bg-black/30 px-4 py-2 rounded border border-white/10">
+                    <span class="text-blue-400">❯</span> ext install vscode-devtools
+                    <button class="ml-4 hover:text-white transition-colors" title="Copy to clipboard">
+                        <i data-lucide="copy" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">Available for VS Code 1.70+</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 bg-[#0a0d12]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <i data-lucide="file-type" class="text-blue-500 w-5 h-5"></i>
+                <span class="font-semibold text-gray-300">DevTools Extension</span>
+            </div>
+            <div class="flex gap-6 text-sm text-gray-500">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Documentation</a>
+                <a href="#" class="hover:text-white transition-colors">Report Issue</a>
+            </div>
+            <div class="text-sm text-gray-600">
+                &copy; 2024 DevTools Inc.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

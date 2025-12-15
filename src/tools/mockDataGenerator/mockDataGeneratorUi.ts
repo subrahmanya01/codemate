@@ -70,7 +70,7 @@ export class MockDataGeneratorUi implements ToolUi {
         const nonce = getNonce();
         const bodyContent = this.getBodyHtml();
         const scriptContent = this.getScriptContent();
-        
+
         panel.webview.html = getBaseHtml(nonce, 'Mock Data Generator', bodyContent, scriptContent);
 
         panel.webview.onDidReceiveMessage(msg => {
