@@ -1,8 +1,12 @@
 {
-  "name": "codemate",
-  "displayName": "codemate",
+  "name": "codemate-toolkit",
+  "displayName": "CodeMate Toolkit",
   "description": "Helper tools for developer",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "publisher": "SubrahmanyaBhat",
+  "repository": {
+    "url": "https://github.com/subrahmanya01/codemate.git"
+  },
   "engines": {
     "vscode": "^1.107.0"
   },
@@ -30,10 +34,7 @@
     ]
   },
   "commands": [
-    { "command": "codemate.jsonToCode", "title": "jsonToCode" },
-    { "command": "codemate.codeToJson", "title": "Code to Json" },
-    { "command": "codemate.base64Helper", "title": "base64 Helper" },
-    { "command": "codemate.mockDataProvider", "title": "Mock Data Generator" }
+    { "command": "codemate.base64Helper", "title": "base64 Helper" }
   ]
 },
   "scripts": {
