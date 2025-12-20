@@ -4,6 +4,7 @@ All notable changes to the "codemate" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
-
-- Initial release
+## [0.1.0] - 2025-12-20
+### Added
+- Initial release.
+- Base64 helper tool for encoding and decoding strings.
