@@ -4,6 +4,7 @@
   "description": "A curated collection of high-productivity utilities designed to simplify common development tasks.",
   "version": "0.0.2",
   "publisher": "SubrahmanyaBhat",
+  "icon": "./resources/codemate.png",
   "repository": {
     "url": "https://github.com/subrahmanya01/codemate.git"
   },
