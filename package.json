@@ -2,7 +2,7 @@
   "name": "codemate-toolkit",
   "displayName": "CodeMate Toolkit",
   "description": "A curated collection of high-productivity utilities designed to simplify common development tasks.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "SubrahmanyaBhat",
   "icon": "./resources/codemate.png",
   "repository": {
@@ -35,7 +35,8 @@
     ]
   },
   "commands": [
-    { "command": "codemate.base64Helper", "title": "base64 Helper" }
+    { "command": "codemate.base64Helper", "title": "Base64 Helper" },
+    { "command": "codemate.jsonToCode", "title": "JSON → Code" }
   ]
 },
   "scripts": {

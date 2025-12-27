@@ -42,6 +42,8 @@ export function getBaseHtml(nonce: string, title: string, bodyContent: string, s
                     .icon-btn { background: #3c3c3c; color: #cccccc; border: none; padding: 4px 8px; cursor: pointer; border-radius: 2px; font-size: 12px; }
                     .icon-btn:hover { background: #4a4a4a; color: white; }
                     select, input[type="text"], input[type="number"] { background: #3c3c3c; color: #cccccc; border: 1px solid #3c3c3c; padding: 4px 6px; border-radius: 2px; font-size: 12px; }
+                    /* Smaller, fixed-width input for root name to keep toolbar tidy */
+                    input#rootname { width: 120px; padding: 4px 6px; background: #3c3c3c; color: #cccccc; border: 1px solid #3c3c3c; border-radius: 2px; font-size: 12px; }
                     select:focus, input:focus { outline: 1px solid #007fd4; border-color: #007fd4; }
                   </style>
                 </head>

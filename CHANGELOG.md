@@ -8,3 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Added
 - Initial release.
 - Base64 helper tool for encoding and decoding strings.
+
+## [0.2.0] - 2025-12-27
+### Added
+- Introduced json to code generation for TypeScript, C#, Python, Java, Go, JavaScript, Kotlin, and Ruby.
