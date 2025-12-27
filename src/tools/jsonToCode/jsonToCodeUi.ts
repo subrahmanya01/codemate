@@ -49,6 +49,12 @@ export class JsonToCodeUi implements ToolUi {
                     case 'copy':
                         if (msg.data) {
                             await vscode.env.clipboard.writeText(msg.data);
+                            // show a VS Code info snackbar to confirm copy
+                            try {
+                                await vscode.window.showInformationMessage('Generated code copied to clipboard');
+                            } catch (e) {
+                                // ignore if showInformationMessage is not available in environment
+                            }
                             panel.webview.postMessage({ type: 'copied' });
                         }
                         break;

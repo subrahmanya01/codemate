@@ -46,5 +46,92 @@
       "object": "dict",
       "null": "Optional[object]"
     }
+  },
+  "java": {
+    "label": "Java",
+    "fileExtension": "java",
+    "kind": "class",
+    "classTemplate": "public class {name} {\n{properties}\n}",
+    "propertyTemplate": "  public {type} {name};",
+    "propertyCase": "camel",
+    "arrayStyle": "suffix",
+    "typeMap": {
+      "string": "String",
+      "number": "double",
+      "boolean": "boolean",
+      "array": "{T}[]",
+      "object": "Object",
+      "null": "Object"
+    }
+  },
+  "go": {
+    "label": "Go",
+    "fileExtension": "go",
+    "kind": "struct",
+    "classTemplate": "type {name} struct {\n{properties}\n}",
+    "propertyTemplate": "    {name} {type} `json:\"{jsonName}\"`",
+    "propertyCase": "pascal",
+    "arrayStyle": "prefix",
+    "typeMap": {
+      "string": "string",
+      "number": "float64",
+      "boolean": "bool",
+      "array": "[]{T}",
+      "object": "interface{}",
+      "null": "interface{}"
+    }
+  },
+  "javascript": {
+    "label": "JavaScript",
+    "fileExtension": "js",
+    "kind": "interface",
+    "classTemplate": "export interface {name} {\n{properties}\n}",
+    "propertyTemplate": "  {name}: {type};",
+    "propertyCase": "camel",
+    "arrayStyle": "suffix",
+    "typeMap": {
+      "string": "string",
+      "number": "number",
+      "boolean": "boolean",
+      "array": "any[]",
+      "object": "any",
+      "null": "any"
+    }
+  },
+  "kotlin": {
+    "label": "Kotlin",
+    "fileExtension": "kt",
+    "kind": "data",
+    "classTemplate": "data class {name}(\n{properties}\n)",
+    "propertyTemplate": "    val {name}: {type},",
+    "propertyCase": "camel",
+    "arrayStyle": "generic",
+    "arrayGenericTemplate": "List<{T}>",
+    "typeMap": {
+      "string": "String",
+      "number": "Double",
+      "boolean": "Boolean",
+      "array": "List<{T}>",
+      "object": "Map<String, Any>",
+      "null": "Any?"
+    }
+  },
+  "ruby": {
+    "label": "Ruby",
+    "fileExtension": "rb",
+    "kind": "class",
+    "classTemplate": "class {name}\n{properties}\nend",
+    "propertyTemplate": "  attr_accessor :{name}",
+    "propertyCase": "snake",
+    "arrayStyle": "generic",
+    "arrayGenericTemplate": "Array<{T}>",
+    "typeMap": {
+      "string": "String",
+      "number": "Numeric",
+      "boolean": "Boolean",
+      "array": "Array<{T}>",
+      "object": "Hash",
+      "null": "nil"
+    }
   }
 }

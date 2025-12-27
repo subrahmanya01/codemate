@@ -43,6 +43,22 @@ export class JsonToCode {
         return map[inferred] || map['object'] || inferred;
     }
 
+    static toArrayType(langRule: any, elemType: string): string {
+        if (!langRule) return elemType + '[]';
+        const style = langRule.arrayStyle || 'suffix';
+        switch (style) {
+            case 'prefix':
+                // e.g. []Type (Go)
+                return '[]' + elemType;
+            case 'generic':
+                if (langRule.arrayGenericTemplate) return langRule.arrayGenericTemplate.replace(/{T}/g, elemType);
+                return elemType + '[]';
+            case 'suffix':
+            default:
+                return elemType + '[]';
+        }
+    }
+
     static pascalCase(name: string): string {
         const cleaned = this.safeName(name);
         return cleaned.split(/[_\s\-]+/).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('') || cleaned;
@@ -88,21 +104,24 @@ export class JsonToCode {
                     const arr = Array.isArray(val) ? val : [];
                     const first = arr.find(el => el !== undefined && el !== null);
                     if (!first) {
+                        // empty array -> map to configured array type or fallback
                         const mapped = this.toType(langRule, 'array');
-                        props[key] = mapped;
+                        props[key] = mapped.indexOf('{T}') >= 0 ? mapped.replace(/{T}/g, 'any') : mapped;
                     } else {
                         const elemInferred = this.inferType(first);
                         if (elemInferred === 'object') {
                             const childBase = this.pascalCase(this.singularize(key));
                             const childName = makeUnique(childBase);
                             processObject(first, childName);
-                            props[key] = childName + '[]';
+                            // language-specific array form (prefix/suffix/generic)
+                            props[key] = this.toArrayType(langRule, childName);
                         } else if (elemInferred === 'array') {
+                            // nested arrays - fallback
                             const mapped = this.toType(langRule, 'array');
-                            props[key] = mapped;
+                            props[key] = mapped.indexOf('{T}') >= 0 ? mapped.replace(/{T}/g, 'any') : mapped;
                         } else {
                             const mapped = this.toType(langRule, elemInferred);
-                            props[key] = mapped + '[]';
+                            props[key] = this.toArrayType(langRule, mapped);
                         }
                     }
                 } else {
@@ -128,7 +147,7 @@ export class JsonToCode {
         for (const key of Object.keys(typeDef.props)) {
             const propName = this.propNameForLanguage(key, langRule);
             const propType = typeDef.props[key];
-            lines.push(template.replace(/{name}/g, propName).replace(/{type}/g, propType));
+            lines.push(template.replace(/{name}/g, propName).replace(/{type}/g, propType).replace(/{jsonName}/g, key));
         }
         const properties = lines.join('\n');
         const classTemplate = langRule.classTemplate || '{name}\n{properties}';

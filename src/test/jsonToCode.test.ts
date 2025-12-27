@@ -58,4 +58,26 @@ suite('JsonToCode Tests', () => {
         assert.ok(out.includes('public string LastName { get; set; }'));
         assert.ok(out.includes('public double Age { get; set; }'));
     });
+
+    test('Go generates structs with json tags and PascalCase fields', () => {
+        const json = JSON.stringify({
+            name: 'John Doe',
+            address: { street: '123 Main St', city: 'Anytown' },
+            phoneNumbers: [{ type: 'home', number: '123' }]
+        });
+        const out = JsonToCode.generate(json, 'go', rules, 'Person');
+        assert.ok(out.includes('type Address struct'));
+        assert.ok(out.includes('Street string `json:"street"`'));
+        assert.ok(out.includes('PhoneNumbers []PhoneNumber `json:"phoneNumbers"`'));
+    });
+
+    test('Java generates classes and array types', () => {
+        const json = JSON.stringify({ firstName: 'John', age: 30, friends: [{ name: 'A' }] });
+        const out = JsonToCode.generate(json, 'java', rules, 'User');
+        assert.ok(out.includes('public class User'));
+        assert.ok(out.includes('public String firstName;'));
+        assert.ok(out.includes('public double age;'));
+        assert.ok(out.includes('public Friend[] friends;'));
+        assert.ok(out.includes('public class Friend'));
+    });
 });
