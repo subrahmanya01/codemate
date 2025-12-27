@@ -11,5 +11,11 @@ export const menuItemConfiguration : MenuItemConfig[] = [
     description: '',
     command: 'codemate.base64Helper',
     icon: 'shield'
+  },
+  {
+    label: 'JSON → Code',
+    description: '',
+    command: 'codemate.jsonToCode',
+    icon: 'symbol-file'
   }
 ]

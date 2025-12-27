@@ -35,7 +35,8 @@
     ]
   },
   "commands": [
-    { "command": "codemate.base64Helper", "title": "base64 Helper" }
+    { "command": "codemate.base64Helper", "title": "Base64 Helper" },
+    { "command": "codemate.jsonToCode", "title": "JSON → Code" }
   ]
 },
   "scripts": {

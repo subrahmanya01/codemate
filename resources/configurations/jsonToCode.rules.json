@@ -1,0 +1,50 @@
+{
+  "typescript": {
+    "label": "TypeScript",
+    "fileExtension": "ts",
+    "kind": "interface",
+    "classTemplate": "export interface {name} {\n{properties}\n}",
+    "propertyTemplate": "  {name}: {type};",
+    "propertyCase": "camel",
+    "typeMap": {
+      "string": "string",
+      "number": "number",
+      "boolean": "boolean",
+      "array": "any[]",
+      "object": "any",
+      "null": "any"
+    }
+  },
+  "csharp": {
+    "label": "C#",
+    "fileExtension": "cs",
+    "kind": "class",
+    "classTemplate": "public class {name} {\n{properties}\n}",
+    "propertyTemplate": "  public {type} {name} { get; set; }",
+    "propertyCase": "pascal",
+    "typeMap": {
+      "string": "string",
+      "number": "double",
+      "boolean": "bool",
+      "array": "object[]",
+      "object": "object",
+      "null": "object"
+    }
+  },
+  "python": {
+    "label": "Python",
+    "fileExtension": "py",
+    "kind": "dataclass",
+    "classTemplate": "from dataclasses import dataclass\n\n@dataclass\nclass {name}:\n{properties}",
+    "propertyTemplate": "  {name}: {type}",
+    "propertyCase": "snake",
+    "typeMap": {
+      "string": "str",
+      "number": "float",
+      "boolean": "bool",
+      "array": "list",
+      "object": "dict",
+      "null": "Optional[object]"
+    }
+  }
+}
