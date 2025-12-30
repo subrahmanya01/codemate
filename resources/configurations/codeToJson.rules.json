@@ -1,0 +1,78 @@
+{
+  "typescript": {
+    "label": "TypeScript",
+    "parsing": {
+      "headerRegex": ["^\\s*(?:export\\s+)?(?:interface|class)\\s+([A-Za-z0-9_]+)"],
+      "propertyPatterns": [
+        { "pattern": "^\\s*(?:public|private|protected|readonly|static|var|let|const)?\\s*([A-Za-z0-9_]+)\\??\\s*:\\s*([^;=\\{]+)", "groups": ["name","type"] },
+        { "pattern": "^\\s*([A-Za-z0-9_<>,\\[\\]]+)\\s+([A-Za-z0-9_]+)\\s*[;\\{]?", "groups": ["type","name"] }
+      ]
+    }
+  },
+  "csharp": {
+    "label": "C#",
+    "parsing": {
+      "headerRegex": ["^\\s*(?:public\\s+)?(?:class|interface)\\s+([A-Za-z0-9_]+)"],
+      "propertyPatterns": [
+        { "pattern": "^\\s*(?:public|private|protected|internal|static|readonly|virtual|override|sealed|new)\\s+([A-Za-z0-9_<>,\\[\\]]+)\\s+([A-Za-z0-9_]+)\\s*\\{", "groups": ["type","name"] },
+        { "pattern": "^\\s*([A-Za-z0-9_<>,\\[\\]]+)\\s+([A-Za-z0-9_]+)\\s*[;\\{]?", "groups": ["type","name"] }
+      ]
+    }
+  },
+  "java": {
+    "label": "Java",
+    "parsing": {
+      "headerRegex": ["^\\s*(?:public\\s+)?(?:class|interface)\\s+([A-Za-z0-9_]+)"],
+      "propertyPatterns": [
+        { "pattern": "^\\s*(?:public|private|protected|static|final|transient)\\s+([A-Za-z0-9_<>,\\[\\]]+)\\s+([A-Za-z0-9_]+)\\s*[;\\{]?", "groups": ["type","name"] },
+        { "pattern": "^\\s*([A-Za-z0-9_<>,\\[\\]]+)\\s+([A-Za-z0-9_]+)\\s*[;\\{]?", "groups": ["type","name"] }
+      ]
+    }
+  },
+  "go": {
+    "label": "Go",
+    "parsing": {
+      "headerRegex": ["^\\s*type\\s+([A-Za-z0-9_]+)\\s+struct\\b"],
+      "propertyPatterns": [
+        { "pattern": "^\\s*([A-Za-z0-9_]+)\\s+([^`\\/;]+)(?:`.*`)?\\s*$", "groups": ["name","type"] }
+      ]
+    }
+  },
+  "python": {
+    "label": "Python",
+    "parsing": {
+      "headerRegex": ["^\\s*class\\s+([A-Za-z0-9_]+)"],
+      "propertyPatterns": [
+        { "pattern": "^\\s*([A-Za-z0-9_]+)\\s*:\\s*([^#]+)", "groups": ["name","type"] }
+      ]
+    }
+  },
+  "kotlin": {
+    "label": "Kotlin",
+    "parsing": {
+      "headerRegex": ["^\\s*(?:data\\s+)?class\\s+([A-Za-z0-9_]+)"],
+      "propertyPatterns": [
+        { "pattern": "^\\s*(?:val|var)\\s+([A-Za-z0-9_]+)\\s*:\\s*([^=;{]+)", "groups": ["name","type"] }
+      ]
+    }
+  },
+  "ruby": {
+    "label": "Ruby",
+    "parsing": {
+      "headerRegex": ["^\\s*class\\s+([A-Za-z0-9_]+)"],
+      "propertyPatterns": [
+        { "pattern": "^\\s*attr_accessor\\s+:?([A-Za-z0-9_]+)", "groups": ["name"] }
+      ]
+    }
+  },
+  "javascript": {
+    "label": "JavaScript",
+    "parsing": {
+      "headerRegex": ["^\\s*(?:export\\s+)?(?:interface|class)\\s+([A-Za-z0-9_]+)"],
+      "propertyPatterns": [
+        { "pattern": "^\\s*(?:public|private|protected|readonly|static|var|let|const)?\\s*([A-Za-z0-9_]+)\\??\\s*:\\s*([^;=\\{]+)", "groups": ["name","type"] },
+        { "pattern": "^\\s*([A-Za-z0-9_<>,\\[\\]]+)\\s+([A-Za-z0-9_]+)\\s*[;\\{]?", "groups": ["type","name"] }
+      ]
+    }
+  }
+}
