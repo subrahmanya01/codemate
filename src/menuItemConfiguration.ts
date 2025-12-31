@@ -17,5 +17,11 @@ export const menuItemConfiguration : MenuItemConfig[] = [
     description: '',
     command: 'codemate.jsonToCode',
     icon: 'symbol-file'
+  },
+  {
+    label: 'Code → JSON',
+    description: '',
+    command: 'codemate.codeToJson',
+    icon: 'symbol-file'
   }
 ]
