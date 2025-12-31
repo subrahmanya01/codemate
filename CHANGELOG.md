@@ -12,3 +12,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.2.0] - 2025-12-27
 ### Added
 - Introduced json to code generation for TypeScript, C#, Python, Java, Go, JavaScript, Kotlin, and Ruby.
+
+## [0.3.0] - 2025-12-31
+### Added
+- Introduced code to json generation for TypeScript, C#, Python, Java, Go, JavaScript, Kotlin, and Ruby.

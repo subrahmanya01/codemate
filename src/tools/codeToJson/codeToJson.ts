@@ -45,7 +45,6 @@ export class CodeToJson {
 
             if (!current) continue;
 
-            // if we have config-driven property patterns, use them first
             if (propertyPatterns) {
                 let matched = false;
                 for (const p of propertyPatterns) {
@@ -62,11 +61,9 @@ export class CodeToJson {
                             if (g === 'type') type = val;
                         }
                         if (!name && captures.length >= 2) {
-                            // fallback heuristic
                             name = captures[captures.length-1];
                         }
                     } else {
-                        // assume first capture is name, second is type otherwise
                         if (captures.length === 1) {
                             name = captures[0];
                         } else if (captures.length >= 2) {
@@ -83,11 +80,7 @@ export class CodeToJson {
                 if (matched) continue;
             }
 
-            // fallback: use aggregated patterns or a small generic set
-            // If no propertyPatterns provided for language, attempt to aggregate patterns from all rules
-            // (this keeps parsing configurable via rules file and avoids hardcoded language cases)
             if (!propertyPatterns && rules) {
-                // try to build aggregated patterns from rules
                 const agg: Array<{ re: RegExp, groups?: string[] }> = [];
                 for (const langKey of Object.keys(rules)) {
                     const p = rules[langKey] && rules[langKey].parsing && rules[langKey].parsing.propertyPatterns;
@@ -96,7 +89,6 @@ export class CodeToJson {
                         try {
                             agg.push({ re: new RegExp(item.pattern, 'i'), groups: item.groups });
                         } catch (e) {
-                            // ignore malformed regex
                         }
                     }
                 }
@@ -135,7 +127,6 @@ export class CodeToJson {
                 if (matchedAgg) continue;
             }
 
-            // final generic fallback: simple name:type or type name forms
             const generic1 = line.match(/^\s*(?:public|private|protected|readonly|static|final|var|let|const)?\s*([A-Za-z0-9_]+)\??\s*:\s*([^;=\{]+)/i);
             if (generic1) {
                 const key = generic1[1].trim();
