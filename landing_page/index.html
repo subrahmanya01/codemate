@@ -85,12 +85,12 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl font-bold text-white mb-4">Everything you need, built-in.</h2>
-                <p class="text-gray-400">Four powerful tools bundled into one lightweight extension.</p>
+                <p class="text-gray-400">A growing suite of powerful developer tools bundled into one lightweight extension.</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Feature 1 -->
-                 <div class="glass-panel p-6 rounded-xl hover:border-orange-500/50 transition-colors group">
+                <!-- Feature 1: Base64 -->
+                <div class="glass-panel p-6 rounded-xl hover:border-orange-500/50 transition-colors group">
                     <div class="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-orange-500/20 transition-colors">
                         <i data-lucide="arrow-right-left" class="text-orange-400 w-6 h-6"></i>
                     </div>
@@ -100,7 +100,7 @@
                     </p>
                 </div>
 
-                <!-- Feature 2 -->
+                <!-- Feature 2: JSON to Code -->
                 <div class="glass-panel p-6 rounded-xl hover:border-blue-500/50 transition-colors group">
                     <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition-colors">
                         <i data-lucide="file-json" class="text-blue-400 w-6 h-6"></i>
@@ -111,21 +111,21 @@
                     </p>
                 </div>
 
-                <!-- Feature 3 -->
+                <!-- Feature 3: Code to JSON -->
                 <div class="glass-panel p-6 rounded-xl hover:border-purple-500/50 transition-colors group">
                     <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-500/20 transition-colors">
                         <i data-lucide="code-2" class="text-purple-400 w-6 h-6"></i>
                     </div>
                     <h3 class="text-lg font-semibold text-white mb-2">Code to JSON</h3>
                     <p class="text-sm text-gray-400 leading-relaxed">
-                        Reverse engineer your legacy classes. Paste C# or Java classes to generate JSON templates with default values.
+                        Reverse engineer legacy classes. Paste C# or Java classes to generate JSON templates with default values.
                     </p>
                 </div>
 
-                <!-- Feature 4 -->
-                <div class="glass-panel p-6 rounded-xl hover:border-green-500/50 transition-colors group">
-                     <div class="absolute top-4 right-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <!-- Feature 4: Mock Data -->
+                <div class="glass-panel p-6 rounded-xl hover:border-green-500/50 transition-colors group relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
                             Coming Soon
                         </span>
                     </div>
@@ -135,6 +135,70 @@
                     <h3 class="text-lg font-semibold text-white mb-2">Mock Data</h3>
                     <p class="text-sm text-gray-400 leading-relaxed">
                         Need dummy data for your API? Generate arrays of realistic users, products, or orders in seconds.
+                    </p>
+                </div>
+
+                <!-- Feature 5: XML ↔ JSON -->
+                <div class="glass-panel p-6 rounded-xl hover:border-pink-500/50 transition-colors group relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                            Coming Soon
+                        </span>
+                    </div>
+                    <div class="w-12 h-12 bg-pink-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-pink-500/20 transition-colors">
+                        <i data-lucide="repeat" class="text-pink-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">XML ↔ JSON</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Bidirectional conversion between XML and JSON. Perfect for handling legacy SOAP APIs and modern REST data.
+                    </p>
+                </div>
+
+                <!-- Feature 6: Regex Tester -->
+                <div class="glass-panel p-6 rounded-xl hover:border-indigo-500/50 transition-colors group relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                            Coming Soon
+                        </span>
+                    </div>
+                    <div class="w-12 h-12 bg-indigo-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-indigo-500/20 transition-colors">
+                        <i data-lucide="regex" class="text-indigo-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Regex Tester</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Test your regular expressions against sample text with real-time match highlighting and group breakdowns.
+                    </p>
+                </div>
+
+                <!-- Feature 7: Hash Generator -->
+                <div class="glass-panel p-6 rounded-xl hover:border-red-500/50 transition-colors group relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                            Coming Soon
+                        </span>
+                    </div>
+                    <div class="w-12 h-12 bg-red-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-500/20 transition-colors">
+                        <i data-lucide="hash" class="text-red-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Hash Generator</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Instantly generate MD5, SHA-1, SHA-256, and SHA-512 hashes for any string or selection.
+                    </p>
+                </div>
+
+                <!-- Feature 8: JWT Debugger -->
+                <div class="glass-panel p-6 rounded-xl hover:border-cyan-500/50 transition-colors group relative">
+                    <div class="absolute top-4 right-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                            Coming Soon
+                        </span>
+                    </div>
+                    <div class="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-cyan-500/20 transition-colors">
+                        <i data-lucide="shield-check" class="text-cyan-400 w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">JWT Debugger</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Inspect and decode JWT tokens locally. View headers, payloads, and human-readable expiry timestamps.
                     </p>
                 </div>
             </div>
@@ -148,7 +212,7 @@
             <div class="flex flex-col items-center gap-4">
                 <div class="flex items-center gap-2 text-gray-400 font-mono text-sm bg-black/30 px-4 py-2 rounded border border-white/10">
                     <span class="text-blue-400">❯</span> ext install subrahmanyabhat.codemate-toolkit
-                    <button class="ml-4 hover:text-white transition-colors" title="Copy to clipboard">
+                    <button class="ml-4 hover:text-white transition-colors" onclick="navigator.clipboard.writeText('ext install subrahmanyabhat.codemate-toolkit')" title="Copy to clipboard">
                         <i data-lucide="copy" class="w-4 h-4"></i>
                     </button>
                 </div>
