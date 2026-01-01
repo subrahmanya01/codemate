@@ -233,13 +233,14 @@
                 <a href="https://github.com/subrahmanya01/codemate/issues" class="hover:text-white transition-colors">Report Issue</a>
             </div>
             <div class="text-sm text-gray-600">
-                &copy; 2025 CodeMate Toolkit.
+                &copy; <span id="year"></span> CodeMate Toolkit.
             </div>
         </div>
     </footer>
 
     <script>
         lucide.createIcons();
+        document.getElementById("year").innerHTML = new Date().getFullYear();
     </script>
 </body>
 </html>
