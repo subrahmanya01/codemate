@@ -2,7 +2,7 @@
   "name": "codemate-toolkit",
   "displayName": "CodeMate Toolkit",
   "description": "A curated collection of high-productivity utilities designed to simplify common development tasks.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "publisher": "SubrahmanyaBhat",
   "icon": "./resources/codemate.png",
   "repository": {

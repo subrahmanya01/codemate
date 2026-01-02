@@ -36,8 +36,10 @@ export function getBaseHtml(nonce: string, title: string, bodyContent: string, s
                     .header .toolbar { padding: 0; background: transparent; border-bottom: none; }
                     .toolbar-group { display: flex; gap: 8px; align-items: center; }
                     .toolbar-label { font-size: 11px; color: var(--vscode-descriptionForeground); text-transform: uppercase; }
-                    .toggle-btn { background: var(--vscode-button-background); color: var(--vscode-button-foreground); border: 1px solid var(--vscode-button-border); padding: 6px 12px; cursor: pointer; border-radius: 2px; font-size: 12px; }
-                    .toggle-btn.active { background: var(--vscode-button-secondaryBackground, var(--vscode-button-background)); color: var(--vscode-button-foreground); border-color: var(--vscode-button-border); }
+                    /* non-active toggles are neutral (like inputs); active toggles use the button color */
+                    .toggle-btn { background: var(--vscode-input-background); color: var(--vscode-input-foreground); border: 1px solid var(--vscode-input-border); padding: 6px 12px; cursor: pointer; border-radius: 2px; font-size: 12px; }
+                    .toggle-btn:hover { filter: brightness(0.98); }
+                    .toggle-btn.active { background: var(--vscode-button-background); color: var(--vscode-button-foreground); border-color: var(--vscode-button-border); }
                     .btn { background: var(--vscode-button-background); color: var(--vscode-button-foreground); border: none; padding: 6px 10px; cursor: pointer; border-radius: 2px; font-size: 12px; font-weight: 500; }
                     .btn:hover { filter: brightness(0.95); }
                     .icon-btn { background: var(--vscode-input-background); color: var(--vscode-input-foreground); border: none; padding: 4px 8px; cursor: pointer; border-radius: 2px; font-size: 12px; }
