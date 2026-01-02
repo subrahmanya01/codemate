@@ -38,7 +38,8 @@
     { "command": "codemate.base64Helper", "title": "Base64 Helper" },
     { "command": "codemate.jsonToCode", "title": "JSON → Code" },
     { "command": "codemate.codeToJson", "title": "Code → JSON" },
-    { "command": "codemate.xmlJson", "title": "XML ↔ JSON" }
+    { "command": "codemate.xmlJson", "title": "XML ↔ JSON" },
+    { "command": "codemate.jwtDebugger", "title": "JWT Debugger" }
   ]
 },
   "scripts": {
