@@ -22,6 +22,13 @@ export class XmlJsonUi implements ToolUi {
 
         panel.webview.html = getBaseHtml(nonce, 'XML ↔ JSON', body, script);
 
+        // send current theme and listen for changes
+        panel.webview.postMessage({ type: 'theme', kind: vscode.window.activeColorTheme.kind });
+        const colorThemeListener = vscode.window.onDidChangeActiveColorTheme((theme) => {
+            panel.webview.postMessage({ type: 'theme', kind: theme.kind });
+        });
+        panel.onDidDispose(() => colorThemeListener.dispose());
+
         let mode: 'xmlToJson' | 'jsonToXml' = 'xmlToJson';
 
         const sendState = (input?: string) => {
@@ -96,8 +103,8 @@ export class XmlJsonUi implements ToolUi {
         return `<div class="header">
             <div class="header-left">
                 <svg class="header-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <rect x="3" y="3" width="18" height="18" rx="2" fill="#007FD4" />
-                    <text x="12" y="16" text-anchor="middle" font-size="10" fill="#fff" font-family="Segoe UI, Arial">XML</text>
+                    <rect x="3" y="3" width="18" height="18" rx="2" fill="var(--vscode-button-background, #007FD4)" />
+                    <text x="12" y="16" text-anchor="middle" font-size="10" fill="var(--vscode-button-foreground, #ffffff)" font-family="Segoe UI, Arial">XML</text>
                 </svg>
                 <span class="header-title">XML ↔ JSON</span>
             </div>

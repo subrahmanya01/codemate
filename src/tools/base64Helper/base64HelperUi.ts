@@ -22,6 +22,13 @@ export class Base64HelperUi implements ToolUi {
 
         panel.webview.html = getBaseHtml(nonce, 'Base64 Helper', body, script);
 
+        // send current theme and listen for changes
+        panel.webview.postMessage({ type: 'theme', kind: vscode.window.activeColorTheme.kind });
+        const colorThemeListener = vscode.window.onDidChangeActiveColorTheme((theme) => {
+            panel.webview.postMessage({ type: 'theme', kind: theme.kind });
+        });
+        panel.onDidDispose(() => colorThemeListener.dispose());
+
         let mode: 'encode' | 'decode' = 'encode';
 
         const sendState = (input?: string) => {
@@ -100,8 +107,8 @@ export class Base64HelperUi implements ToolUi {
                 <div class="header-left">
                     <!-- Inline SVG icon: CSP-safe, small and descriptive -->
                     <svg class="header-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <rect x="3" y="3" width="18" height="18" rx="2" fill="#007FD4" />
-                        <text x="12" y="16" text-anchor="middle" font-size="10" fill="#fff" font-family="Segoe UI, Arial">B64</text>
+                        <rect x="3" y="3" width="18" height="18" rx="2" fill="var(--vscode-button-background, #007FD4)" />
+                        <text x="12" y="16" text-anchor="middle" font-size="10" fill="var(--vscode-button-foreground, #ffffff)" font-family="Segoe UI, Arial">B64</text>
                     </svg>
                     <span class="header-title">Base64 Helper</span>
                 </div>

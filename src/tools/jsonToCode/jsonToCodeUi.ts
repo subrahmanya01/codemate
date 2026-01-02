@@ -22,6 +22,13 @@ export class JsonToCodeUi implements ToolUi {
 
         panel.webview.html = getBaseHtml(nonce, 'JSON → Code', body, script);
 
+        // send current theme and listen for changes
+        panel.webview.postMessage({ type: 'theme', kind: vscode.window.activeColorTheme.kind });
+        const colorThemeListener = vscode.window.onDidChangeActiveColorTheme((theme) => {
+            panel.webview.postMessage({ type: 'theme', kind: theme.kind });
+        });
+        panel.onDidDispose(() => colorThemeListener.dispose());
+
         const rulesPath = vscode.Uri.joinPath(context.extensionUri, 'resources', 'configurations', 'jsonToCode.rules.json').fsPath;
         let rules: any = {};
         try {
@@ -74,8 +81,8 @@ export class JsonToCodeUi implements ToolUi {
         return `<div class="header">
                 <div class="header-left">
                     <svg class="header-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <rect x="3" y="3" width="18" height="18" rx="2" fill="#00A0A0" />
-                        <text x="12" y="16" text-anchor="middle" font-size="10" fill="#fff" font-family="Segoe UI, Arial">J→C</text>
+                        <rect x="3" y="3" width="18" height="18" rx="2" fill="var(--vscode-button-background, #00A0A0)" />
+                        <text x="12" y="16" text-anchor="middle" font-size="10" fill="var(--vscode-button-foreground, #ffffff)" font-family="Segoe UI, Arial">J→C</text>
                     </svg>
                     <span class="header-title">JSON → Code</span>
                 </div>

@@ -22,7 +22,14 @@ export class JwtDebuggerUi implements ToolUi {
 
         panel.webview.html = getBaseHtml(nonce, 'JWT Debugger', body, script);
 
-        const sendState = (token?: string) => {
+        // send current theme and listen for changes
+        panel.webview.postMessage({ type: 'theme', kind: vscode.window.activeColorTheme.kind });
+        const colorThemeListener = vscode.window.onDidChangeActiveColorTheme((theme) => {
+            panel.webview.postMessage({ type: 'theme', kind: theme.kind });
+        });
+        panel.onDidDispose(() => colorThemeListener.dispose());
+
+        const sendState = (token?: string) => { 
             panel.webview.postMessage({ type: 'state', data: { token: token || '' } });
 
             if (typeof token === 'string' && token.length) {
@@ -98,8 +105,8 @@ export class JwtDebuggerUi implements ToolUi {
         return `<div class="header">
             <div class="header-left">
                 <svg class="header-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <rect x="3" y="3" width="18" height="18" rx="2" fill="#007FD4" />
-                    <text x="12" y="16" text-anchor="middle" font-size="10" fill="#fff" font-family="Segoe UI, Arial">JWT</text>
+                    <rect x="3" y="3" width="18" height="18" rx="2" fill="var(--vscode-button-background, #007FD4)" />
+                    <text x="12" y="16" text-anchor="middle" font-size="10" fill="var(--vscode-button-foreground, #ffffff)" font-family="Segoe UI, Arial">JWT</text>
                 </svg>
                 <span class="header-title">JWT Debugger</span>
             </div>
@@ -113,13 +120,13 @@ export class JwtDebuggerUi implements ToolUi {
         <style>
           /* JWT specific adjustments to match extension theme */
           .main.jwt .token-pane { flex: 1.4; min-width: 340px; }
-          .main.jwt .controls { display:flex; gap:8px; align-items:center; padding:8px; background:#252526; border-top:1px solid #2b2b2b; }
-          .main.jwt .controls label { color:#969696; font-size:12px; min-width:120px; }
-          #key-input { flex:1; padding:6px 8px; background:#3c3c3c; color:#cccccc; border:1px solid #3c3c3c; border-radius:2px; font-size:12px; }
+          .main.jwt .controls { display:flex; gap:8px; align-items:center; padding:8px; background: var(--vscode-editorGroup-tabsBackground, var(--vscode-sideBar-background)); border-top:1px solid var(--vscode-editorGroup-border); }
+          .main.jwt .controls label { color: var(--vscode-descriptionForeground); font-size:12px; min-width:120px; }
+          #key-input { flex:1; padding:6px 8px; background: var(--vscode-input-background); color: var(--vscode-input-foreground); border:1px solid var(--vscode-input-border); border-radius:2px; font-size:12px; }
           #verify-status { margin-left:8px; font-weight:600; }
 
           /* Snackbar for copy feedback */
-          .snackbar { position: fixed; left: 50%; transform: translateX(-50%) translateY(0); bottom: 24px; background: rgba(50,50,50,0.95); color: #fff; padding: 8px 12px; border-radius: 4px; opacity: 0; transition: opacity 180ms ease, transform 180ms ease; z-index: 9999; pointer-events: none; }
+          .snackbar { position: fixed; left: 50%; transform: translateX(-50%) translateY(0); bottom: 24px; background: var(--vscode-notifications-background, var(--vscode-editor-background)); color: var(--vscode-notifications-foreground, var(--vscode-editor-foreground)); padding: 8px 12px; border-radius: 4px; opacity: 0; transition: opacity 180ms ease, transform 180ms ease; z-index: 9999; pointer-events: none; border: 1px solid var(--vscode-editorGroup-border); box-shadow: 0 6px 24px rgba(0,0,0,0.12); }
           .snackbar.show { opacity: 1; transform: translateX(-50%) translateY(-6px); }
         </style>
 
