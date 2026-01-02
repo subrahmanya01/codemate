@@ -23,5 +23,17 @@ export const menuItemConfiguration : MenuItemConfig[] = [
     description: '',
     command: 'codemate.codeToJson',
     icon: 'symbol-file'
+  },
+  {
+    label: 'XML ↔ JSON',
+    description: '',
+    command: 'codemate.xmlJson',
+    icon: 'symbol-file'
+  },
+  {
+    label: 'JWT Debugger',
+    description: '',
+    command: 'codemate.jwtDebugger',
+    icon: 'key'
   }
 ]

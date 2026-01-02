@@ -1,14 +1,14 @@
 import { ToolUi } from '../../toolUi';
 import * as vscode from 'vscode';
 import { getNonce, getBaseHtml } from '../webviewUtils';
-import { Base64Helper } from './base64Helper';
+import { XmlJson } from './xmlJson';
 import { WebviewContent } from '../webviewContent';
 
-export class Base64HelperUi implements ToolUi {
+export class XmlJsonUi implements ToolUi {
     async show(context: vscode.ExtensionContext): Promise<void> {
         const panel = vscode.window.createWebviewPanel(
-            'codemate.base64',
-            'Base64 Helper',
+            'codemate.xmlJson',
+            'XML ↔ JSON',
             vscode.ViewColumn.One,
             { enableScripts: true, retainContextWhenHidden: true }
         );
@@ -18,9 +18,9 @@ export class Base64HelperUi implements ToolUi {
         const iconUri = vscode.Uri.joinPath(context.extensionUri, 'resources', 'tool.svg');
         panel.iconPath = { light: iconUri, dark: iconUri } as any;
 
-        const { body, script } = Base64HelperUi.getWebviewContent();
+        const { body, script } = XmlJsonUi.getWebviewContent();
 
-        panel.webview.html = getBaseHtml(nonce, 'Base64 Helper', body, script);
+        panel.webview.html = getBaseHtml(nonce, 'XML ↔ JSON', body, script);
 
         // send current theme and listen for changes
         panel.webview.postMessage({ type: 'theme', kind: vscode.window.activeColorTheme.kind });
@@ -29,23 +29,23 @@ export class Base64HelperUi implements ToolUi {
         });
         panel.onDidDispose(() => colorThemeListener.dispose());
 
-        let mode: 'encode' | 'decode' = 'encode';
+        let mode: 'xmlToJson' | 'jsonToXml' = 'xmlToJson';
 
         const sendState = (input?: string) => {
             panel.webview.postMessage({
                 type: 'state',
                 data: {
                     mode,
-                    isEncode: mode === 'encode',
-                    inputTitle: mode === 'encode' ? 'Plain Text' : 'Base64 String',
-                    outputTitle: mode === 'encode' ? 'Base64 Output' : 'Decoded Text',
-                    placeholder: mode === 'encode' ? 'Type text to encode...' : 'Type base64 to decode...'
+                    isXmlToJson: mode === 'xmlToJson',
+                    inputTitle: mode === 'xmlToJson' ? 'XML Input' : 'JSON Input',
+                    outputTitle: mode === 'xmlToJson' ? 'JSON Output' : 'XML Output',
+                    placeholder: mode === 'xmlToJson' ? 'Paste XML here...' : 'Paste JSON here...'
                 }
             });
 
             if (typeof input === 'string' && input.length) {
                 try {
-                    const out = mode === 'encode' ? Base64Helper.encode(input) : Base64Helper.decodeValidated(input);
+                    const out = mode === 'xmlToJson' ? XmlJson.xmlToJson(input) : XmlJson.jsonToXml(input);
                     panel.webview.postMessage({ type: 'result', data: out });
                 } catch (e) {
                     panel.webview.postMessage({ type: 'error', data: String(e) });
@@ -64,7 +64,7 @@ export class Base64HelperUi implements ToolUi {
                         panel.dispose();
                         break;
                     case 'toggle':
-                        mode = msg.data === 'encode' ? 'encode' : 'decode';
+                        mode = msg.data === 'xmlToJson' ? 'xmlToJson' : 'jsonToXml';
                         sendState(msg.input);
                         break;
                     case 'input':
@@ -72,17 +72,14 @@ export class Base64HelperUi implements ToolUi {
                             panel.webview.postMessage({ type: 'result', data: '' });
                             break;
                         }
-                        if (mode === 'encode') {
-                            const out = Base64Helper.encode(msg.data);
+
+                        try {
+                            const out = mode === 'xmlToJson' ? XmlJson.xmlToJson(msg.data) : XmlJson.jsonToXml(msg.data);
                             panel.webview.postMessage({ type: 'result', data: out });
-                        } else {
-                            try {
-                                const out = Base64Helper.decodeValidated(msg.data);
-                                panel.webview.postMessage({ type: 'result', data: out });
-                            } catch (e) {
-                                panel.webview.postMessage({ type: 'error', data: String(e) });
-                            }
+                        } catch (e) {
+                            panel.webview.postMessage({ type: 'error', data: String(e) });
                         }
+
                         break;
                     case 'copy':
                         if (msg.data) {
@@ -104,46 +101,45 @@ export class Base64HelperUi implements ToolUi {
 
     public static getBodyHtml(): string {
         return `<div class="header">
-                <div class="header-left">
-                    <!-- Inline SVG icon: CSP-safe, small and descriptive -->
-                    <svg class="header-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <rect x="3" y="3" width="18" height="18" rx="2" fill="var(--vscode-button-background, #007FD4)" />
-                        <text x="12" y="16" text-anchor="middle" font-size="10" fill="var(--vscode-button-foreground, #ffffff)" font-family="Segoe UI, Arial">B64</text>
-                    </svg>
-                    <span class="header-title">Base64 Helper</span>
-                </div>
-                <div class="header-right">
-                    <div class="toolbar header-toolbar">
-                        <button class="toggle-btn active" id="encode-btn">Encode</button>
-                        <button class="toggle-btn" id="decode-btn">Decode</button>
-                    </div>
+            <div class="header-left">
+                <svg class="header-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2" fill="var(--vscode-button-background, #007FD4)" />
+                    <text x="12" y="16" text-anchor="middle" font-size="10" fill="var(--vscode-button-foreground, #ffffff)" font-family="Segoe UI, Arial">XML</text>
+                </svg>
+                <span class="header-title">XML ↔ JSON</span>
+            </div>
+            <div class="header-right">
+                <div class="toolbar header-toolbar">
+                    <button class="toggle-btn active" id="xml-to-json">XML → JSON</button>
+                    <button class="toggle-btn" id="json-to-xml">JSON → XML</button>
                 </div>
             </div>
+        </div>
 
-            <div class="main">
-                <div class="pane">
-                    <div class="pane-title">
-                        <span id="input-title">Plain Text</span>
-                        <button class="icon-btn" id="clear-btn">Clear</button>
-                    </div>
-                    <textarea id="input" placeholder="Type text to encode..."></textarea>
+        <div class="main">
+            <div class="pane">
+                <div class="pane-title">
+                    <span id="input-title">XML Input</span>
+                    <button class="icon-btn" id="clear-btn">Clear</button>
                 </div>
-                <div class="pane">
-                    <div class="pane-title">
-                        <span id="output-title">Base64 Output</span>
-                        <button class="icon-btn" id="copy-btn">Copy</button>
-                    </div>
-                    <textarea id="output" readonly></textarea>
+                <textarea id="input" placeholder="Paste XML here..."></textarea>
+            </div>
+            <div class="pane">
+                <div class="pane-title">
+                    <span id="output-title">JSON Output</span>
+                    <button class="icon-btn" id="copy-btn">Copy</button>
                 </div>
-            </div>`;
+                <textarea id="output" readonly></textarea>
+            </div>
+        </div>`;
     }
 
     public static getScriptContent(): string {
         return `
             const vscode = acquireVsCodeApi();
 
-            const encodeBtn = document.getElementById('encode-btn');
-            const decodeBtn = document.getElementById('decode-btn');
+            const xmlBtn = document.getElementById('xml-to-json');
+            const jsonBtn = document.getElementById('json-to-xml');
             const inputEl = document.getElementById('input');
             const outputEl = document.getElementById('output');
             const inputTitleEl = document.getElementById('input-title');
@@ -151,12 +147,12 @@ export class Base64HelperUi implements ToolUi {
             const clearBtn = document.getElementById('clear-btn');
             const copyBtn = document.getElementById('copy-btn');
 
-            encodeBtn.addEventListener('click', () => {
-                vscode.postMessage({ type: 'toggle', data: 'encode' });
+            xmlBtn.addEventListener('click', () => {
+                vscode.postMessage({ type: 'toggle', data: 'xmlToJson' });
             });
 
-            decodeBtn.addEventListener('click', () => {
-                vscode.postMessage({ type: 'toggle', data: 'decode' });
+            jsonBtn.addEventListener('click', () => {
+                vscode.postMessage({ type: 'toggle', data: 'jsonToXml' });
             });
 
             inputEl.addEventListener('input', () => {
@@ -177,8 +173,8 @@ export class Base64HelperUi implements ToolUi {
                 const msg = event.data;
                 if (msg.type === 'state') {
                     const s = msg.data || {};
-                    encodeBtn.classList.toggle('active', !!s.isEncode);
-                    decodeBtn.classList.toggle('active', !s.isEncode);
+                    xmlBtn.classList.toggle('active', !!s.isXmlToJson);
+                    jsonBtn.classList.toggle('active', !s.isXmlToJson);
                     if (s.inputTitle) inputTitleEl.textContent = s.inputTitle;
                     if (s.outputTitle) outputTitleEl.textContent = s.outputTitle;
                     if (s.placeholder) inputEl.placeholder = s.placeholder;

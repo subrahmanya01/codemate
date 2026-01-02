@@ -71,6 +71,17 @@ Code to JSON parses your language-specific data structures (like C# Classes, Pyt
 | **Kotlin** | `Data Classes` | Handles primary constructor properties. |
 | **Ruby** | `Classes & Initializers` | Maps instance variables to JSON keys. |
 
+
+### 🚀 XML <-> JSON Parser
+A streamlined utility for fast, bidirectional conversion between XML and JSON formats. It preserves data integrity across complex nested structures, making it easy to bridge legacy systems with modern APIs. The tool is lightweight and provides both a programmatic API and a simple command-line interface for quick transformations. Users can customize how attributes, namespaces, and data types are handled during the conversion process. It is a practical solution for developers who need to move data between formats without the usual manual overhead.
+
+![Code to Json Generator](./docs/images/xmlJson.png)
+
+### 🚀 JWT Debugger
+A compact but powerful debugger for JSON Web Tokens (JWT). Paste a token to decode header and payload, detect algorithm, and verify signatures with HMAC secrets or RSA public keys. Currently supports HS256/384/512 and RS256/384/512; ES* (ECDSA) support is planned. Useful for inspecting auth tokens and debugging signature issues.
+
+![JWT Debugger](./docs/images/jwtDebugger.png)
+
 ## Contributing
 
 Contributions are welcome. Open issues or pull requests with a clear description and tests for behavior changes.

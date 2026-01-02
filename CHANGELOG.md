@@ -16,3 +16,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.3.0] - 2025-12-31
 ### Added
 - Introduced code to json generation for TypeScript, C#, Python, Java, Go, JavaScript, Kotlin, and Ruby.
+
+## [0.4.0] - 2026-01-02
+### Added
+- XML ↔ JSON Converter: Added a bidirectional parser to transform data between XML and JSON formats.
+- JWT Debugger: Introduced a tool to decode headers/payloads and verify signatures (HS/RS algorithms).
+- Theming Support: Added automatic UI color adaptation to match the user's active VS Code theme.
