@@ -117,6 +117,10 @@ export class JwtDebuggerUi implements ToolUi {
           .main.jwt .controls label { color:#969696; font-size:12px; min-width:120px; }
           #key-input { flex:1; padding:6px 8px; background:#3c3c3c; color:#cccccc; border:1px solid #3c3c3c; border-radius:2px; font-size:12px; }
           #verify-status { margin-left:8px; font-weight:600; }
+
+          /* Snackbar for copy feedback */
+          .snackbar { position: fixed; left: 50%; transform: translateX(-50%) translateY(0); bottom: 24px; background: rgba(50,50,50,0.95); color: #fff; padding: 8px 12px; border-radius: 4px; opacity: 0; transition: opacity 180ms ease, transform 180ms ease; z-index: 9999; pointer-events: none; }
+          .snackbar.show { opacity: 1; transform: translateX(-50%) translateY(-6px); }
         </style>
 
         <div class="main jwt">
@@ -147,7 +151,9 @@ export class JwtDebuggerUi implements ToolUi {
                 </div>
                 <textarea id="payload" readonly></textarea>
             </div>
-        </div>`;
+        </div>
+
+        <div id="snackbar" class="snackbar" aria-live="polite"></div>`;
     }
 
     public static getScriptContent(): string {
@@ -164,6 +170,14 @@ export class JwtDebuggerUi implements ToolUi {
             const copyBtn = document.getElementById('copy-btn');
             const clearBtn = document.getElementById('clear-btn');
 
+            function showSnackbar(text) {
+                const el = document.getElementById('snackbar');
+                if (!el) return;
+                el.textContent = text;
+                el.classList.add('show');
+                setTimeout(() => el.classList.remove('show'), 1800);
+            }
+
             tokenEl.addEventListener('input', () => {
                 vscode.postMessage({ type: 'input', data: tokenEl.value });
             });
@@ -174,6 +188,11 @@ export class JwtDebuggerUi implements ToolUi {
             });
 
             copyBtn.addEventListener('click', () => {
+                if (!payloadEl.value || payloadEl.value.trim().length === 0) {
+                    showSnackbar('Nothing to copy');
+                    return;
+                }
+                // Ask extension to copy to clipboard
                 vscode.postMessage({ type: 'copy', data: payloadEl.value });
             });
 
@@ -198,10 +217,13 @@ export class JwtDebuggerUi implements ToolUi {
                     const r = msg.data || {};
                     verifyStatusEl.textContent = r.msg || (r.ok ? 'OK' : 'INVALID');
                     verifyStatusEl.style.color = r.ok ? 'var(--vscode-terminal-ansiGreen)' : 'var(--vscode-terminal-ansiRed)';
+                    if (r.msg) showSnackbar(r.msg);
                 } else if (msg.type === 'error') {
                     headerEl.value = 'Error: ' + msg.data;
                     payloadEl.value = '';
+                    showSnackbar('Error: ' + msg.data);
                 } else if (msg.type === 'copied') {
+                    showSnackbar('Payload copied to clipboard');
                     const original = copyBtn.textContent;
                     copyBtn.textContent = 'Copied';
                     setTimeout(() => (copyBtn.textContent = original), 1000);
