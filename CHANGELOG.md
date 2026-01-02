@@ -21,4 +21,5 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Added
 - XML ↔ JSON Converter: Added a bidirectional parser to transform data between XML and JSON formats.
 - JWT Debugger: Introduced a tool to decode headers/payloads and verify signatures (HS/RS algorithms).
+### Updated
 - Theming Support: Added automatic UI color adaptation to match the user's active VS Code theme.
