@@ -37,7 +37,8 @@
   "commands": [
     { "command": "codemate.base64Helper", "title": "Base64 Helper" },
     { "command": "codemate.jsonToCode", "title": "JSON → Code" },
-    { "command": "codemate.codeToJson", "title": "Code → JSON" }
+    { "command": "codemate.codeToJson", "title": "Code → JSON" },
+    { "command": "codemate.xmlJson", "title": "XML ↔ JSON" }
   ]
 },
   "scripts": {
@@ -50,6 +51,9 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.3.4"
   },
   "devDependencies": {
     "@types/vscode": "^1.107.0",
