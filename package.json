@@ -39,7 +39,8 @@
     { "command": "codemate.jsonToCode", "title": "JSON → Code" },
     { "command": "codemate.codeToJson", "title": "Code → JSON" },
     { "command": "codemate.xmlJson", "title": "XML ↔ JSON" },
-    { "command": "codemate.jwtDebugger", "title": "JWT Debugger" }
+    { "command": "codemate.jwtDebugger", "title": "JWT Debugger" },
+    { "command": "codemate.quickHash", "title": "Quick Hash Generator" }
   ]
 },
   "scripts": {

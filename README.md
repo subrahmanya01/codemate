@@ -82,6 +82,9 @@ A compact but powerful debugger for JSON Web Tokens (JWT). Paste a token to deco
 
 ![JWT Debugger](./docs/images/jwtDebugger.png)
 
+### 🚀 Quick Hash Generator
+A versatile tool for generating hashes and HMACs using various algorithms (MD5, SHA-1, SHA-256, SHA-384, SHA-512) and output formats (hex, Base64). Quickly generate checksums or test HMAC signatures directly within VS Code. The tool provides a user-friendly interface to select algorithms, input text, and secrets for HMAC, displaying the output instantly.
+
 ## Contributing
 
 Contributions are welcome. Open issues or pull requests with a clear description and tests for behavior changes.

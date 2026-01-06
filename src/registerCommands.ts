@@ -4,6 +4,7 @@ import { JsonToCodeUi } from './tools/jsonToCode/jsonToCodeUi';
 import { CodeToJsonUi } from './tools/codeToJson/codeToJsonUi';
 import { XmlJsonUi } from './tools/xmlJson/xmlJsonUi';
 import { JwtDebuggerUi } from './tools/jwtDebugger/jwtDebuggerUi';
+import { QuickHashUi } from './tools/quickHash/quickHashUi';
 
 export function registerCommands(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
@@ -25,6 +26,10 @@ export function registerCommands(context: vscode.ExtensionContext) {
 		}),
 		vscode.commands.registerCommand('codemate.jwtDebugger', async () => {
 			const ui = new JwtDebuggerUi();
+			await ui.show(context);
+		}),
+		vscode.commands.registerCommand('codemate.quickHash', async () => {
+			const ui = new QuickHashUi();
 			await ui.show(context);
 		})
 	);
