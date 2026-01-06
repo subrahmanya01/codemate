@@ -23,3 +23,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - JWT Debugger: Introduced a tool to decode headers/payloads and verify signatures (HS/RS algorithms).
 ### Updated
 - Theming Support: Added automatic UI color adaptation to match the user's active VS Code theme.
+
+## [0.5.0] - 2026-01-06
+### Added
+- Quick Hash Generator: A new utility for developers to generate cryptographic hashes (MD5, SHA-256) directly within the workspace.
+
+### Updated
+- UI Refinement: Updated tool icon to a rounded aesthetic to align with the brand's "Outfit"

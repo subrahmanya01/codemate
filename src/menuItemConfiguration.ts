@@ -35,5 +35,11 @@ export const menuItemConfiguration : MenuItemConfig[] = [
     description: '',
     command: 'codemate.jwtDebugger',
     icon: 'key'
+  },
+  {
+    label: 'Quick Hash',
+    description: '',
+    command: 'codemate.quickHash',
+    icon: 'key'
   }
 ]

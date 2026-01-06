@@ -2,7 +2,7 @@
   "name": "codemate-toolkit",
   "displayName": "CodeMate Toolkit",
   "description": "A curated collection of high-productivity utilities designed to simplify common development tasks.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "publisher": "SubrahmanyaBhat",
   "icon": "./resources/codemate.png",
   "repository": {
@@ -39,7 +39,8 @@
     { "command": "codemate.jsonToCode", "title": "JSON → Code" },
     { "command": "codemate.codeToJson", "title": "Code → JSON" },
     { "command": "codemate.xmlJson", "title": "XML ↔ JSON" },
-    { "command": "codemate.jwtDebugger", "title": "JWT Debugger" }
+    { "command": "codemate.jwtDebugger", "title": "JWT Debugger" },
+    { "command": "codemate.quickHash", "title": "Quick Hash Generator" }
   ]
 },
   "scripts": {
