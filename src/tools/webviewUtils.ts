@@ -12,7 +12,7 @@ export function getBaseHtml(nonce: string, title: string, bodyContent: string, s
               <html lang="en">
                 <head>
                   <meta charset="utf-8" />
-                  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}'">
+                  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline' https://cdnjs.cloudflare.com; script-src 'nonce-${nonce}' https://cdnjs.cloudflare.com; worker-src blob:; font-src https://cdnjs.cloudflare.com; img-src data: https://cdnjs.cloudflare.com; connect-src https://cdnjs.cloudflare.com">
                   <meta name="viewport" content="width=device-width, initial-scale=1">
                   <title>${title}</title>
                   <style>
@@ -29,6 +29,8 @@ export function getBaseHtml(nonce: string, title: string, bodyContent: string, s
                     .pane { flex: 1; display: flex; flex-direction: column; border-right: 1px solid var(--vscode-editorGroup-border); min-width: 0; }
                     .pane:last-child { border-right: 0; }
                     .pane-title { height: 36px; background: var(--vscode-editorGroup-tabsBackground, var(--vscode-sideBar-background)); border-bottom: 1px solid var(--vscode-editorGroup-border); display: flex; align-items: center; justify-content: space-between; padding: 0 8px; font-size: 11px; text-transform: uppercase; color: var(--vscode-descriptionForeground); flex-shrink: 0; }
+                    .editor-container { flex: 1; min-height: 0; }
+                    .editor { width: 100%; height: 100%; }
                     textarea { flex: 1; background: var(--vscode-editor-background); color: var(--vscode-editor-foreground); border: 0; padding: 12px; font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; resize: none; outline: none; }
                     textarea:focus { outline: 1px solid var(--vscode-focusBorder); }
                     textarea:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -52,6 +54,7 @@ export function getBaseHtml(nonce: string, title: string, bodyContent: string, s
                     .header-icon rect { fill: var(--vscode-button-background); }
                     .header-icon text { fill: var(--vscode-button-foreground); font-family: Segoe UI, Arial; }
                   </style>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/loader.min.js"></script>
                 </head>
                 <body>
                   ${bodyContent}

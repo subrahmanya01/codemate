@@ -1,5 +1,6 @@
 import { ToolUi } from '../../toolUi';
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 import { getNonce, getBaseHtml } from '../webviewUtils';
 import { WebviewContent } from '../webviewContent';
 import { CodeToJson } from './codeToJson';
@@ -32,10 +33,9 @@ export class CodeToJsonUi implements ToolUi {
         const rulesPath = vscode.Uri.joinPath(context.extensionUri, 'resources', 'configurations', 'codeToJson.rules.json').fsPath;
         let rules: any = {};
         try {
-            const fs = require('fs');
             rules = JSON.parse(fs.readFileSync(rulesPath, 'utf-8'));
         } catch (e) {
-            console.error('Failed to load codeToJson rules for CodeToJson', e);
+            //console.error('Failed to load codeToJson rules for CodeToJson', e);
         }
 
         panel.webview.onDidReceiveMessage(async msg => {
@@ -100,14 +100,14 @@ export class CodeToJsonUi implements ToolUi {
                         <span>Code Input</span>
                         <button class="icon-btn" id="clear-btn">Clear</button>
                     </div>
-                    <textarea id="input" placeholder="Paste code or type definitions here..."></textarea>
+                    <div id="input-editor" class="editor-container editor"></div>
                 </div>
                 <div class="pane">
                     <div class="pane-title">
                         <span>Generated JSON</span>
                         <button class="icon-btn" id="copy-btn">Copy</button>
                     </div>
-                    <textarea id="output"></textarea>
+                    <div id="output-editor" class="editor-container editor"></div>
                 </div>
             </div>`;
     }
@@ -115,12 +115,111 @@ export class CodeToJsonUi implements ToolUi {
     public static getScriptContent(): string {
         return `
             const vscode = acquireVsCodeApi();
+            const monacoBaseUrl = 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min';
 
-            const inputEl = document.getElementById('input');
-            const outputEl = document.getElementById('output');
             const copyBtn = document.getElementById('copy-btn');
             const clearBtn = document.getElementById('clear-btn');
             const langSelect = document.getElementById('language-select');
+
+            let inputEditor = null;
+            let outputEditor = null;
+            let pendingThemeKind = 1;
+
+            const languageMap = {
+                typescript: 'typescript',
+                javascript: 'javascript',
+                json: 'json',
+                jsonc: 'json',
+                csharp: 'csharp',
+                java: 'java',
+                php: 'php',
+                python: 'python',
+                go: 'go',
+                ruby: 'ruby',
+                kotlin: 'kotlin',
+                swift: 'swift',
+                cpp: 'cpp',
+                c: 'c',
+                html: 'html',
+                css: 'css',
+                scss: 'scss',
+                shell: 'shell',
+                bash: 'shell',
+                yaml: 'yaml'
+            };
+
+            function getMonacoLanguage(language) {
+                return languageMap[language] || 'plaintext';
+            }
+
+            function createEditors() {
+                if (!window.require) {
+                    console.error('Monaco loader not available');
+                    return;
+                }
+
+                window.MonacoEnvironment = {
+                    getWorkerUrl: function(moduleId, label) {
+                        return URL.createObjectURL(new Blob([
+                            'importScripts("' + monacoBaseUrl + '/vs/base/worker/workerMain.js");'
+                        ], { type: 'text/javascript' }));
+                    }
+                };
+
+                require.config({ paths: { vs: monacoBaseUrl + '/vs' } });
+                require(['vs/editor/editor.main'], function () {
+                    inputEditor = monaco.editor.create(document.getElementById('input-editor'), {
+                        value: '',
+                        language: 'plaintext',
+                        automaticLayout: true,
+                        theme: 'vs-dark',
+                        minimap: { enabled: true },
+                        fontSize: 13,
+                        scrollBeyondLastLine: false
+                    });
+
+                    outputEditor = monaco.editor.create(document.getElementById('output-editor'), {
+                        value: '',
+                        language: 'json',
+                        automaticLayout: true,
+                        theme: 'vs-dark',
+                        minimap: { enabled: true },
+                        fontSize: 13,
+                        readOnly: true,
+                        scrollBeyondLastLine: false
+                    });
+
+                    langSelect.addEventListener('change', () => {
+                        const lang = getMonacoLanguage(langSelect.value);
+                        monaco.editor.setModelLanguage(inputEditor.getModel(), lang);
+                        doConvert();
+                    });
+
+                    if (langSelect.options.length > 0) {
+                        const selectedLang = getMonacoLanguage(langSelect.value);
+                        monaco.editor.setModelLanguage(inputEditor.getModel(), selectedLang);
+                    }
+
+                    clearBtn.addEventListener('click', () => {
+                        inputEditor.setValue('');
+                        outputEditor.setValue('');
+                    });
+
+                    copyBtn.addEventListener('click', () => {
+                        vscode.postMessage({ type: 'copy', data: outputEditor.getValue() });
+                    });
+
+                    inputEditor.onDidChangeModelContent(() => doConvert());
+                    setTheme(pendingThemeKind);
+                });
+            }
+
+            function setTheme(kind) {
+                pendingThemeKind = kind;
+                if (!window.monaco) return;
+                const theme = kind === 2 ? 'vs-dark' : kind === 3 ? 'hc-black' : 'vs';
+                monaco.editor.setTheme(theme);
+            }
 
             function fillLanguages(rules) {
                 langSelect.innerHTML = '';
@@ -133,21 +232,10 @@ export class CodeToJsonUi implements ToolUi {
                 if (langSelect.options.length > 0) langSelect.selectedIndex = 0;
             }
 
-            langSelect.addEventListener('change', () => doConvert());
-            inputEl.addEventListener('input', () => doConvert());
-
-            clearBtn.addEventListener('click', () => {
-                inputEl.value = '';
-                outputEl.value = '';
-            });
-
-            copyBtn.addEventListener('click', () => {
-                vscode.postMessage({ type: 'copy', data: outputEl.value });
-            });
-
             function doConvert() {
+                if (!inputEditor) return;
                 const payload = {
-                    input: inputEl.value,
+                    input: inputEditor.getValue(),
                     language: langSelect.value
                 };
                 vscode.postMessage({ type: 'convert', data: payload });
@@ -157,18 +245,25 @@ export class CodeToJsonUi implements ToolUi {
                 const msg = event.data;
                 if (msg.type === 'rules') {
                     fillLanguages(msg.data);
-                    // auto convert on first load
                     setTimeout(() => doConvert(), 10);
                 } else if (msg.type === 'result') {
-                    outputEl.value = msg.data || '';
+                    outputEditor && outputEditor.setValue(msg.data || '');
                 } else if (msg.type === 'error') {
-                    outputEl.value = 'Error: ' + msg.data;
+                    outputEditor && outputEditor.setValue('Error: ' + msg.data);
                 } else if (msg.type === 'copied') {
                     const original = copyBtn.textContent;
                     copyBtn.textContent = 'Copied';
                     setTimeout(() => (copyBtn.textContent = original), 1000);
+                } else if (msg.type === 'theme') {
+                    setTheme(msg.kind);
                 }
-            });`;
+            });
+
+            window.addEventListener('load', createEditors);
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                createEditors();
+            }
+        `;
     }
 
     public static getWebviewContent(): WebviewContent {

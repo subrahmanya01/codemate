@@ -8,38 +8,38 @@ export interface MenuItemConfig {
 export const menuItemConfiguration : MenuItemConfig[] = [
   {
     label: 'Base64 Helper',
-    description: '',
+    description: 'Encode and decode Base64 strings',
     command: 'codemate.base64Helper',
-    icon: 'shield'
-  },
-  {
-    label: 'JSON → Code',
-    description: '',
-    command: 'codemate.jsonToCode',
-    icon: 'symbol-file'
+    icon: 'symbol-string'
   },
   {
     label: 'Code → JSON',
-    description: '',
+    description: 'Convert code structures to JSON',
     command: 'codemate.codeToJson',
     icon: 'symbol-file'
   },
   {
+    label: 'JSON → Code',
+    description: 'Generate code from JSON schemas',
+    command: 'codemate.jsonToCode',
+    icon: 'symbol-class'
+  },
+  {
     label: 'XML ↔ JSON',
-    description: '',
+    description: 'Convert between XML and JSON',
     command: 'codemate.xmlJson',
-    icon: 'symbol-file'
+    icon: 'symbol-namespace'
   },
   {
     label: 'JWT Debugger',
-    description: '',
+    description: 'Inspect and decode JWT tokens',
     command: 'codemate.jwtDebugger',
-    icon: 'key'
+    icon: 'symbol-key'
   },
   {
     label: 'Quick Hash',
-    description: '',
+    description: 'Generate hash values',
     command: 'codemate.quickHash',
-    icon: 'key'
+    icon: 'symbol-misc'
   }
 ]

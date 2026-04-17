@@ -2,7 +2,7 @@
   "name": "codemate-toolkit",
   "displayName": "CodeMate Toolkit",
   "description": "A curated collection of high-productivity utilities designed to simplify common development tasks.",
-  "version": "0.5.0",
+  "version": "0.7.0",
   "publisher": "SubrahmanyaBhat",
   "icon": "./resources/codemate.png",
   "repository": {
@@ -16,33 +16,51 @@
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
- "contributes": {
-  "viewsContainers": {
-    "activitybar": [
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codemate-container",
+          "title": "Codemate",
+          "icon": "resources/codemate.svg"
+        }
+      ]
+    },
+    "views": {
+      "codemate-container": [
+        {
+          "id": "codemate-menu",
+          "name": "Tools"
+        }
+      ]
+    },
+    "commands": [
       {
-        "id": "codemate-container",
-        "title": "Codemate",
-        "icon": "resources/codemate.svg"
+        "command": "codemate.base64Helper",
+        "title": "Base64 Helper"
+      },
+      {
+        "command": "codemate.jsonToCode",
+        "title": "JSON → Code"
+      },
+      {
+        "command": "codemate.codeToJson",
+        "title": "Code → JSON"
+      },
+      {
+        "command": "codemate.xmlJson",
+        "title": "XML ↔ JSON"
+      },
+      {
+        "command": "codemate.jwtDebugger",
+        "title": "JWT Debugger"
+      },
+      {
+        "command": "codemate.quickHash",
+        "title": "Quick Hash Generator"
       }
     ]
   },
-  "views": {
-    "codemate-container": [
-      {
-        "id": "codemate-menu",
-        "name": "Tools" 
-      }
-    ]
-  },
-  "commands": [
-    { "command": "codemate.base64Helper", "title": "Base64 Helper" },
-    { "command": "codemate.jsonToCode", "title": "JSON → Code" },
-    { "command": "codemate.codeToJson", "title": "Code → JSON" },
-    { "command": "codemate.xmlJson", "title": "XML ↔ JSON" },
-    { "command": "codemate.jwtDebugger", "title": "JWT Debugger" },
-    { "command": "codemate.quickHash", "title": "Quick Hash Generator" }
-  ]
-},
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
@@ -55,19 +73,20 @@
     "test": "vscode-test"
   },
   "dependencies": {
-    "fast-xml-parser": "^4.3.4"
+    "fast-xml-parser": "^4.3.4",
+    "fs": "^0.0.1-security"
   },
   "devDependencies": {
-    "@types/vscode": "^1.107.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "typescript-eslint": "^8.48.1",
-    "eslint": "^9.39.1",
-    "typescript": "^5.9.3",
-    "ts-loader": "^9.5.4",
-    "webpack": "^5.103.0",
-    "webpack-cli": "^6.0.1",
+    "@types/vscode": "^1.107.0",
     "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.39.1",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^6.0.1"
   }
 }

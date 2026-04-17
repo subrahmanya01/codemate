@@ -122,14 +122,14 @@ export class XmlJsonUi implements ToolUi {
                     <span id="input-title">XML Input</span>
                     <button class="icon-btn" id="clear-btn">Clear</button>
                 </div>
-                <textarea id="input" placeholder="Paste XML here..."></textarea>
+                <div id="input-editor" class="editor-container editor"></div>
             </div>
             <div class="pane">
                 <div class="pane-title">
                     <span id="output-title">JSON Output</span>
                     <button class="icon-btn" id="copy-btn">Copy</button>
                 </div>
-                <textarea id="output" readonly></textarea>
+                <div id="output-editor" class="editor-container editor"></div>
             </div>
         </div>`;
     }
@@ -137,60 +137,126 @@ export class XmlJsonUi implements ToolUi {
     public static getScriptContent(): string {
         return `
             const vscode = acquireVsCodeApi();
+            const monacoBaseUrl = 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min';
 
             const xmlBtn = document.getElementById('xml-to-json');
             const jsonBtn = document.getElementById('json-to-xml');
-            const inputEl = document.getElementById('input');
-            const outputEl = document.getElementById('output');
             const inputTitleEl = document.getElementById('input-title');
             const outputTitleEl = document.getElementById('output-title');
             const clearBtn = document.getElementById('clear-btn');
             const copyBtn = document.getElementById('copy-btn');
 
-            xmlBtn.addEventListener('click', () => {
-                vscode.postMessage({ type: 'toggle', data: 'xmlToJson' });
-            });
+            let inputEditor = null;
+            let outputEditor = null;
+            let pendingThemeKind = 1;
+            let currentMode = 'xmlToJson';
 
-            jsonBtn.addEventListener('click', () => {
-                vscode.postMessage({ type: 'toggle', data: 'jsonToXml' });
-            });
+            function createEditors() {
+                if (!window.require) {
+                    console.error('Monaco loader not available');
+                    return;
+                }
 
-            inputEl.addEventListener('input', () => {
-                vscode.postMessage({ type: 'input', data: inputEl.value });
-            });
+                window.MonacoEnvironment = {
+                    getWorkerUrl: function(moduleId, label) {
+                        return URL.createObjectURL(new Blob([
+                            'importScripts("' + monacoBaseUrl + '/vs/base/worker/workerMain.js");'
+                        ], { type: 'text/javascript' }));
+                    }
+                };
 
-            clearBtn.addEventListener('click', () => {
-                inputEl.value = '';
-                outputEl.value = '';
-                vscode.postMessage({ type: 'clear' });
-            });
+                require.config({ paths: { vs: monacoBaseUrl + '/vs' } });
+                require(['vs/editor/editor.main'], function () {
+                    inputEditor = monaco.editor.create(document.getElementById('input-editor'), {
+                        value: '',
+                        language: currentMode === 'xmlToJson' ? 'xml' : 'json',
+                        automaticLayout: true,
+                        theme: 'vs-dark',
+                        minimap: { enabled: true },
+                        fontSize: 13,
+                        scrollBeyondLastLine: false
+                    });
 
-            copyBtn.addEventListener('click', () => {
-                vscode.postMessage({ type: 'copy', data: outputEl.value });
-            });
+                    outputEditor = monaco.editor.create(document.getElementById('output-editor'), {
+                        value: '',
+                        language: currentMode === 'xmlToJson' ? 'json' : 'xml',
+                        automaticLayout: true,
+                        theme: 'vs-dark',
+                        minimap: { enabled: true },
+                        fontSize: 13,
+                        readOnly: true,
+                        scrollBeyondLastLine: false
+                    });
+
+                    xmlBtn.addEventListener('click', () => {
+                        vscode.postMessage({ type: 'toggle', data: 'xmlToJson' });
+                    });
+
+                    jsonBtn.addEventListener('click', () => {
+                        vscode.postMessage({ type: 'toggle', data: 'jsonToXml' });
+                    });
+
+                    clearBtn.addEventListener('click', () => {
+                        inputEditor.setValue('');
+                        outputEditor.setValue('');
+                        vscode.postMessage({ type: 'clear' });
+                    });
+
+                    copyBtn.addEventListener('click', () => {
+                        vscode.postMessage({ type: 'copy', data: outputEditor.getValue() });
+                    });
+
+                    inputEditor.onDidChangeModelContent(() => {
+                        vscode.postMessage({ type: 'input', data: inputEditor.getValue() });
+                    });
+
+                    setTheme(pendingThemeKind);
+                });
+            }
+
+            function setTheme(kind) {
+                pendingThemeKind = kind;
+                if (!window.monaco) return;
+                const theme = kind === 2 ? 'vs-dark' : kind === 3 ? 'hc-black' : 'vs';
+                monaco.editor.setTheme(theme);
+            }
 
             window.addEventListener('message', event => {
                 const msg = event.data;
                 if (msg.type === 'state') {
                     const s = msg.data || {};
+                    currentMode = s.mode;
                     xmlBtn.classList.toggle('active', !!s.isXmlToJson);
                     jsonBtn.classList.toggle('active', !s.isXmlToJson);
                     if (s.inputTitle) inputTitleEl.textContent = s.inputTitle;
                     if (s.outputTitle) outputTitleEl.textContent = s.outputTitle;
-                    if (s.placeholder) inputEl.placeholder = s.placeholder;
+                    if (inputEditor) {
+                        monaco.editor.setModelLanguage(inputEditor.getModel(), s.isXmlToJson ? 'xml' : 'json');
+                    }
+                    if (outputEditor) {
+                        monaco.editor.setModelLanguage(outputEditor.getModel(), s.isXmlToJson ? 'json' : 'xml');
+                    }
                 } else if (msg.type === 'result') {
-                    outputEl.value = msg.data || '';
+                    outputEditor && outputEditor.setValue(msg.data || '');
                 } else if (msg.type === 'error') {
-                    outputEl.value = 'Error: ' + msg.data;
+                    outputEditor && outputEditor.setValue('Error: ' + msg.data);
                 } else if (msg.type === 'clear-done') {
-                    inputEl.value = '';
-                    outputEl.value = '';
+                    inputEditor && inputEditor.setValue('');
+                    outputEditor && outputEditor.setValue('');
                 } else if (msg.type === 'copied') {
                     const original = copyBtn.textContent;
                     copyBtn.textContent = 'Copied';
                     setTimeout(() => (copyBtn.textContent = original), 1000);
+                } else if (msg.type === 'theme') {
+                    setTheme(msg.kind);
                 }
-            });`;
+            });
+
+            window.addEventListener('load', createEditors);
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                createEditors();
+            }
+        `;
     }
 
     public static getWebviewContent(): WebviewContent {
